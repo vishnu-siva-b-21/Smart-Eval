@@ -1,0 +1,202 @@
+{% extends "faculty/base.html" %}
+
+{% block title %}
+exam qp
+{% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='faculty/styles/exam_qp.css') }}">
+{% endblock styles %}
+
+{% block content %}
+
+<div class="temp"></div>
+<section class="dashboard">
+
+
+    <div class="box">
+        <div>
+            <h1>{{ data.exam_title }} QP</h1>
+            <div class="exam-box">
+                {% for ques in data.qp %}
+                <div class="question-set">
+                    <div class="question">
+                        <span>Question:</span>
+                        <p class="ques">{{ques.get('question')}}</p>
+                        <span>{{ques.get('marks')}} mark</span>
+                    </div>
+                    <div class="question">
+                        <span>Answer:</span>
+                        <p class="ques">{{ques.get('correct_answer')}}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+        <form action="{{url_for('faculty.exam_list')}}" method="POST">
+            <button type="submit" class="go-back">Go Back</button>
+        </form>
+    </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const inputs = document.querySelectorAll('.change-box');
+
+        function adjustWidth(input) {
+            const tempSpan = document.createElement('span');
+            tempSpan.style.visibility = 'hidden';
+            tempSpan.style.whiteSpace = 'pre';
+            tempSpan.style.fontSize = getComputedStyle(input).fontSize;
+            tempSpan.style.fontFamily = getComputedStyle(input).fontFamily;
+            tempSpan.innerText = input.value || input.placeholder;
+            document.body.appendChild(tempSpan);
+            input.style.width = `${tempSpan.offsetWidth + 10}px`;
+            document.body.removeChild(tempSpan);
+        }
+
+        inputs.forEach(input => {
+            adjustWidth(input); // Adjust width on page load
+            input.addEventListener('input', () => adjustWidth(input)); // Adjust width on input change
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const inputs = document.querySelectorAll('.change-box');
+
+        function adjustWidth(input) {
+            const tempSpan = document.createElement('span');
+            tempSpan.style.visibility = 'hidden';
+            tempSpan.style.whiteSpace = 'pre';
+            tempSpan.style.fontSize = getComputedStyle(input).fontSize;
+            tempSpan.style.fontFamily = getComputedStyle(input).fontFamily;
+            tempSpan.innerText = input.value || input.placeholder;
+            document.body.appendChild(tempSpan);
+            input.style.width = `${tempSpan.offsetWidth + 10}px`;
+            document.body.removeChild(tempSpan);
+        }
+
+        inputs.forEach(input => {
+            adjustWidth(input); // Adjust width on page load
+            input.addEventListener('input', () => adjustWidth(input)); // Adjust width on input change
+        });
+
+        // Form validation
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function (event) {
+                const input = form.querySelector('.change-box');
+                const newMark = parseFloat(input.value);
+                const totalMark = parseFloat(input.nextSibling.textContent.trim().split('/')[1]);
+
+                if (isNaN(newMark) || newMark < 0 || newMark > totalMark) {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Mark',
+                        text: 'Please enter a valid mark that is a number between 0 and ' + totalMark + '.'
+                    }).then(() => {
+                        location.reload();
+                    });
+                }
+            });
+        });
+    });
+
+    // navbar script
+
+    const body = document.querySelector("body"),
+        modeToggle = body.querySelector(".mode-toggle");
+    sidebar = body.querySelector("nav");
+    sidebarToggle = body.querySelector(".sidebar-toggle");
+
+    let getMode = localStorage.getItem("mode");
+    if (getMode && getMode === "dark") {
+        body.classList.toggle("dark");
+    }
+
+    let getStatus = localStorage.getItem("status");
+    if (getStatus && getStatus === "close") {
+        sidebar.classList.toggle("close");
+    }
+
+
+
+    sidebarToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("close");
+        if (sidebar.classList.contains("close")) {
+            localStorage.setItem("status", "close");
+        } else {
+            localStorage.setItem("status", "open");
+        }
+    })
+
+
+
+
+    // Logout sweet alert 
+
+
+    document.getElementById('confirmationButton').addEventListener('click', function (event) {
+        // Prevent the default behavior (navigation) until confirmation
+        event.preventDefault();
+
+        // Show confirmation Sweet Alert
+        Swal.fire({
+            title: 'Logout Confirmation',
+            text: 'Are you sure you want to logout?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, logout!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // If confirmed, proceed to the linked page
+                window.location.href = this.getAttribute('href');
+            } else if (result.dismiss === Swal.DismissReason.cancel) {
+                // If canceled, do nothing or handle accordingly
+            }
+        });
+    });
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        var dashboardTop = document.querySelector('.dashboard .top');
+        var logoImage = document.querySelector('.logo-image');
+
+        dashboardTop.addEventListener('click', function () {
+            // Toggle the 'hidden' class on the logo-image element
+            logoImage.classList.toggle('hidden');
+        });
+    });
+
+
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Retrieve input values from local storage
+        const selectedSection = localStorage.getItem("selectedSection");
+        const selectedExamName = localStorage.getItem("selectedExamName");
+
+        if (selectedSection && selectedExamName) {
+            // If values exist, insert them into the table
+            const examNameCell = document.querySelector('.exam-name');
+            const sectionCell = document.querySelector('.section');
+
+            examNameCell.textContent = selectedExamName;
+            sectionCell.textContent = selectedSection;
+
+            // Clear local storage
+            localStorage.removeItem("selectedSection");
+            localStorage.removeItem("selectedExamName");
+        }
+    });
+
+
+
+</script>
+
+{% endblock scripts %}

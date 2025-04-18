@@ -1,0 +1,76 @@
+{% extends "faculty/base.html" %}
+
+{% block title %}
+Admin Dashboard Panel
+{% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='faculty/styles/faculty_dashboard.css') }}">
+{% endblock styles %}
+
+{% block content %}
+<section class="dashboard">
+    
+
+    <div class="box1">
+        <div class="content">
+            <div class="content-row1">
+                <h2>Welcome!</h2>
+                <h1>{{ faculty_info.name.title() }}</h1>
+                <h4>Welcome to our platform to make online exam easier and simpler</h4>
+            </div>
+            <div class="content-row2">
+                <img src="{{url_for('static', filename='faculty/images/profile.jpg.png')}}" alt="profile">
+            </div>
+        </div>
+    </div>
+
+    <div class="box2">
+        <h2> Details</h2>
+        <div class="main-body">
+            <div class="row gutters-sm">
+                <div class="col-md-12">
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Full Name</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ faculty_info.name }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0">Email</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    {{ faculty_info.email }}
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <h6 class="mb-0 password">Password</h6>
+                                </div>
+                                <div class="col-sm-9 text-secondary">
+                                    <input type="password" class="password-input text-secondary" value="{{ faculty_info.password }}" readonly>
+                                    <div class="btn btn-group">
+                                        <button type="button" class="view-password-btn view-button">View Password</button>
+                                        <button type="button" class="change-button" id="confirmButton">Change Password</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='faculty/scripts/faculty_dashboard.js') }}"></script>
+{% endblock scripts %}

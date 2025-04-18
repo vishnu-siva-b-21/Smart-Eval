@@ -1,0 +1,451 @@
+
+body{
+  background-color: #B2BAFF !important;
+  overflow-x: hidden;
+}
+
+
+.navbar{
+background-color: #030A8C;
+}
+
+
+.navbar .nav-link i{
+font-size: 30px;
+color: white;
+}
+.navbar .nav-link i:hover{
+color: wheat;
+}
+
+.body-content{
+
+display: flex;
+flex-direction: row-reverse;
+justify-content: space-evenly;
+margin-top: 2VH;
+}
+
+
+.box1{
+  width: 30%;
+  height: auto;
+  background-color: #030A8C;
+  border-radius: 20px;
+  margin-bottom: 2vh;
+}
+
+.topic{
+display: flex;
+flex-direction: row;
+margin-left: 10%;
+margin-top: 5vh;
+color: white;
+/* width: 100%; */
+}
+.topic-content{
+margin-left: 2vh;
+margin-top: -0.5vh;
+}
+
+
+.Answered{
+width: 20px;
+height: 20px;
+border-radius: 100%;
+background-color: darkgreen;
+}
+
+.Not-Answered{
+width: 20px;
+height: 20px;
+border-radius: 100%;
+background-color: rgb(135, 210, 233);
+margin-top: 2.5vh;
+}
+.review{
+width: 20px;
+height: 20px;
+border-radius: 100%;
+background-color:#FFA500;
+margin-top: 2.5vh;
+}
+
+.inner-box1{
+  width: 85%;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #12154B;
+  border-radius: 20px;
+  margin-left: 3vh;
+  padding-bottom: 5vh;
+}
+.inner-box1 #questionButtons{
+position: relative;
+left: 30%;
+top: -14vh;
+width: 80%;
+}
+
+.inner-box1 button{
+width: 50px;
+height: 50px;
+margin: 0.5vh;
+border-radius: 10px;
+border-style: hidden;
+}
+
+.fillButton.reviewed, .shortButton.reviewed {
+background-color: orange;
+color: white;
+}
+
+
+.fillButton.filled, .shortButton.filled {
+background-color: darkgreen;
+color: white;
+}
+
+
+.fillButton {
+    background-color: rgb(135, 210, 233);
+}
+
+.shortButton {
+    background-color: rgb(135, 210, 233);
+}
+
+
+.box3{
+  width: 60%;
+  height: auto;
+  /* min-height: 78vh; */
+  border-radius: 20px;
+  padding:2rem;
+  background-color: #030A8C;
+ 
+}
+
+.box3 .content{
+width: 100%;
+color: white;
+}
+
+#questionNo, #questionText{
+  display: inline-block;
+}
+
+#questionType{
+font-size: 50px;
+}
+
+.content h3{
+margin-top: 5vh;
+line-height: 5vh;
+font-size: 20px;
+}
+.content h2{
+margin-top: 5vh;
+margin-bottom: 4vh;
+line-height: 2vh;
+}
+.content textarea{
+border-style: hidden;
+font-size: 15px;
+border-radius: 20px;
+padding-left: 2vh;
+padding-top: 2vh;
+font-weight: 700;
+display: block;
+/* margin-top: 5vh; */
+}
+
+#questionButtons button {
+position: relative;
+top: 17vh;
+right: 25%;
+}
+.content-button{
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+margin-left: 5%;
+margin-top: 7vh;
+
+}
+
+.previous{
+width: 100px;
+height: 40px;
+background-color: rgb(96, 194, 255);
+border-radius: 15px;
+border-style: hidden;
+font-size: 15px;
+margin-right: 5vh;
+font-weight: 600;
+}
+.next{
+width: 100px;
+height: 40px;
+background-color: rgb(0, 184, 9);
+color: white;
+border-radius: 15px;
+border-style: hidden;
+font-size: 15px;
+font-weight: 600;
+}
+.submit{
+width: 100px;
+height: 40px;
+background-color: rgb(96, 174, 0);
+color: white;
+border-radius: 15px;
+border-style: hidden;
+font-size: 15px;
+margin-left: 5vh;
+font-weight: 600;
+}
+
+.inner-content{
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+}
+
+.mark-review a{
+margin-left: 10%;
+font-size: 20px;
+}
+
+.mark-review i{
+color: white;
+cursor: pointer;
+}
+.mark-review i:hover{
+color: orange;
+}
+
+
+
+@media (max-width:1300px){
+
+#questionType{
+  font-size: 45px;
+}
+.inner-box1 button{
+  width: 45px;
+  height: 45px;
+}
+}
+
+
+@media (max-width:1300px){
+.inner-box1 button{
+  width: 45px;
+  height: 45px;
+}
+.inner-box1{
+  margin-left: 2vh;
+}
+#questionText{
+  font-size: 20px !important;
+}
+#questionType{
+  font-size: 35px !important;
+}
+.content h2, #questionNo{
+  font-size: 30px !important;
+}
+}
+
+
+@media (max-width:1000px){
+.inner-box1 button{
+  width: 40px;
+  height: 40px;
+}
+.inner-box1{
+  margin-left: 2vh;
+}
+}
+
+
+@media (max-width:800px){
+
+.inner-box1 button{
+  width: 40px;
+  height: 40px;
+}
+.inner-box1 {
+  margin-left: 4vh;
+}
+.body-content{
+  display: flex;
+  flex-direction: column-reverse;
+  margin-left: 12%;
+}
+
+.content-button{
+  margin-top: 5vh;
+}
+.box1{
+  width: 100%;
+  margin-left: -5vh;
+  margin-top: 3vh;
+  height: auto;
+  padding-bottom: 10vh;
+}
+.box3{
+  width: 100%;
+  margin-left: -5vh;
+}
+#questionText{
+  font-size: 18px !important;
+}
+#questionType{
+  font-size: 30px !important;
+}
+.content h2, #questionNo{
+  font-size: 25px !important;
+}
+}
+
+@media (max-width:650px){
+.inner-box1{
+  margin-left: 3vh;
+}
+.box1{
+  margin-left: -3vh;
+}
+.box3{
+  margin-left: -3vh;
+}
+.content textarea{
+  width: 90%;
+}
+.content h3{
+  font-size: 15px;
+}
+.previous{
+  width: 120px;
+  height: 35px;
+}
+.next{
+  width: 120px;
+  height: 35px;
+}
+.submit{
+  width: 120px;
+  height: 35px;
+}
+#questionType{
+  font-size: 35px;
+}
+.content-button{
+  margin-top: 2vh;
+}
+.topic-content{
+  font-size: 14px;
+}
+.Not-Answered{
+  margin-top: 2vh;
+}
+.review{
+  margin-top: 2vh;
+}
+.navbar .nav-link i{
+  font-size: 25px;
+}
+.box3 .content .inner-content{
+  font-size: 20px !important;
+}
+}
+
+@media (max-width:400px){
+
+.row2 p{
+  font-size: 10px;
+}
+
+.inner-content{
+  padding-bottom: 1vh;
+}
+#questionType{
+  font-size: 30px;
+}
+.box3{
+  height: auto;
+}
+.next{
+  width: 120px;
+  height: 35px;
+}
+.submit{
+  width: 120px;
+  height: 35px;
+}
+.content-button{
+  margin-left: 10%;
+}
+
+.navbar img{
+width: 150px !important;
+height: 40px !important;
+}
+.navbar .nav-link i{
+font-size: 20px;
+}
+#questionText{
+  font-size: 18px !important;
+  line-height: 3vh;
+}
+#questionType{
+  font-size: 24px !important;
+}
+.content h2, #questionNo{
+  font-size: 20px !important;
+}
+
+}
+
+@media (max-width:300px){
+.box1{
+margin-left: -2vh;
+}
+.box3{
+margin-left: -2vh;
+}
+.content h2{
+font-size: 20px;
+margin-top: -5vh;
+}
+
+.inner-box1{
+margin-left: 2vh;
+}
+}
+
+
+/* Styles for fill in the blanks */
+.fill-in-the-blanks {
+width: 70%; /* Set width for fill in the blanks */
+min-height: 8vh; /* Set height for fill in the blanks */
+resize: none; /* Prevent resizing */
+overflow: hidden;
+box-sizing: border-box;
+padding: 1rem;
+}
+
+.fillButton.filled {
+  background-color: darkgreen !important;
+  color: white;
+}
+
+.fillButton.reviewed {
+  background-color: #FFA500 !important;
+  color: black;
+}
+
+.re_star{
+  color: rgb(255, 165, 0);
+}

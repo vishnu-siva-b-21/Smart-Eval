@@ -1,0 +1,130 @@
+{% extends "faculty/base.html" %}
+
+{% block title %}
+    Exam Details Page
+{% endblock title %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{url_for('static', filename='faculty/styles/exam_present.css')}}">
+    <style>
+        .box {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        
+        .none_message {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center;
+            flex-direction: column;
+            gap:1rem
+        }
+        .none_message h1{
+            text-align: center;
+        }
+        .none_message button {
+            margin:0;
+            height: auto;
+            min-height: 40px;
+            width:20vmax;
+            max-width: 250px;
+            padding:10px;
+        }
+        .none_message .btn-group{
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center;
+            flex-wrap: wrap;
+            gap:0.5rem
+        }
+        
+        #more-options{
+            height:auto;
+            width: auto;
+            padding: 5px;
+            margin:0;
+            left: 0;
+        }
+        #td-details{
+            display:flex; 
+            align-items:center; 
+            justify-content:center;
+        }
+    </style>
+{% endblock styles %}
+
+{% block content %}
+    <section class="dashboard">
+       
+        <div class="box">
+            {% if table_data|length != 0 %}
+                <div class="content">
+                    <div class="head-content">
+                        <div class="head1">
+                        <h1 style="display:inline-block; margin-bottom:0; margin-right:26rem;"><span id="exam_title">{{ exam_title }}</span> Details</h1>
+                   </div>
+                    <div class="head2"> 
+                       <form style="display:inline-block;" action="{{url_for('faculty.abs', sec=sec, exam_title=exam_title, exam_id = exam_id)}}" method="POST">
+                       <button type="submit" class="yet">
+                           Yet to Complete
+                       </button>
+                       </form>
+                   </div>
+                   </div>
+                    
+                   
+                    <div class="inner-content">
+                        <table class="table table-sm table-striped table-sortable" style="table-layout: fixed;">
+                            <thead>
+                                <tr>
+                                    <th data-sort="int">Reg No</th>
+                                    <th data-sort="string">Name</th>
+                                    <th data-sort="string">Section</th>
+                                    <th data-sort="string">Mark Obtained</th>
+                                    <th>More Details</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for row in table_data %}
+                                    <tr>
+                                        <th>{{ row.reg_no }}</th>
+                                        <td>{{ row.name }}</td>
+                                        <td>{{ row.section }}</td>
+                                        <td>{{ row.mark }}</td>
+                                        <td id="td-details"><form style="display:inline-block;" action="{{url_for('faculty.response_details', reg_no=row.reg_no, exam_id = exam_id)}}" method="POST">
+                                            <button id="more-options">→</button></form></td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="button">
+                        <div class="row1">
+                            <button type="button" class="download">Download Exam Data</button>
+                            <button type="button" class="reload" onclick= "window.location.reload();">Reload Now</button>    
+                        </div>
+                         <div class="row2">
+                            <button type="button" class="go-back" onclick= "window.location.href='/faculty/exam-list'">Go Back</button>              
+                         </div>
+                    </div>
+                   
+                   
+        </div>
+            {% else %}
+                <div class="none_message">
+                    <h1>No one completed the exam please reload to check</h1>
+                    <div class="btn-group">
+                    <button type="button" class="reload" onclick= "window.location.reload();">Reload Now</button>
+                    <button type="button" class="go-back" onclick= "window.location.href='/faculty/exam-list'">Go Back</button>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </section>
+{% endblock content %}
+
+
+{% block scripts %}
+    <script src="{{url_for('static', filename='faculty/scripts/exam_present.js')}}"></script>
+{% endblock scripts %}

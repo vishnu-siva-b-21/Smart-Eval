@@ -1,0 +1,542 @@
+<!-- Your HTML code -->
+{% extends "student/base.html" %}
+{% block title %} Exam {% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='student/styles/exam.css') }}">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+  crossorigin="anonymous" referrerpolicy="no-referrer" />
+<style>
+  .loading-screen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(#4505e7, #2103a5);
+    color: white;
+    font-size: 24px;
+    text-align: center;
+    z-index: 9999;
+    flex-direction: column;
+    /* Display loading screen as a column */
+    justify-content: center;
+    /* Center elements vertically */
+    align-items: center;
+  }
+
+  #questionText {
+    user-select: none;
+    /* Disable text selection */
+    -webkit-user-select: none;
+    /* For Safari */
+    -moz-user-select: none;
+    /* For older Firefox */
+    -ms-user-select: none;
+    /* For older IE */
+    pointer-events: none;
+    /* Disable copying via drag-and-drop */
+  }
+
+
+  #logout {
+    display: none !important;
+  }
+
+  h2 {
+    display: inline;
+  }
+
+  .note {
+    margin-top: 3vh;
+  }
+</style>
+{% endblock styles %}
+
+{% block content %}
+
+
+
+<div class="loading-screen" id="loadingScreen">
+  <!-- <img src="{{url_for('static', filename='student/images/loader.gif')}}" alt="loader"> -->
+  Submitting Your Answers...
+</div>
+
+<div id="stuff"></div>
+<div class="body-content">
+  <div class="box1">
+    <div class="topic">
+      <div class="row1-topic">
+        <div class="Answered"></div>
+        <div class="Not-Answered"></div>
+        <div class="review"></div>
+      </div>
+      <div class="row2-topic">
+        <div class="topic-content">
+          <p>Answered</p>
+          <p>Not-Answered</p>
+          <p>Marked for Review</p>
+        </div>
+      </div>
+    </div>
+    <div class="inner-box1">
+      <div id="questionButtons"></div>
+    </div>
+  </div>
+  <div class="box3">
+    <div class="content">
+      <div class="inner-content">
+        <div class="row1">
+          <h1 id="questionType"></h1>
+        </div>
+        <div class="row2">
+          <div class="mark-review" id="markReviewBtn">
+            <p>Mark for review</p>
+            <a><i id="review-star" class="fa-solid fa-star"></i></a>
+          </div>
+        </div>
+      </div>
+      <h2>Question No:</h2>
+      <h2 id="questionNo"></h2><br>
+      <h2 id="questionText" oncontextmenu="return false;"></h2>
+      <textarea id="answer" class="fill-in-the-blanks" oninput="resizeTextarea()" placeholder="Type Your Answer Here..."
+        oncopy="return false" oncut="return false" onpaste="return false"></textarea>
+      <div class="content-button">
+        <button type="button" class="previous" id="previousBtn" onclick="previousQuestion()">Previous</button>
+        <button type="button" class="next" id="nextBtn" onclick="nextQuestion()">Next</button>
+        <button type="button" class="submit" id="submitButton" onclick="confirmSubmitQuiz()"
+          style="display:none">Submit</button>
+      </div>
+      <p class="note"><b>Note : </b> **Malpractice is Strictly Prohibited during the Exam**</p>
+    </div>
+  </div>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+  function resizeTextarea() {
+    const textarea = document.getElementById("answer");
+    textarea.style.height = "auto"; // Reset height to auto
+    textarea.style.height = textarea.scrollHeight + "px"; // Set height to scroll height
+  }
+
+  function showLoadingScreen() {
+    document.getElementById("loadingScreen").style.display = "flex";
+  }
+
+  // Hide loading screen
+  function hideLoadingScreen() {
+    document.getElementById("loadingScreen").style.display = "none";
+  }
+
+  var questions = [];
+  var currentQuestionIndex = 0;
+  var answers = {};
+
+  document.addEventListener('DOMContentLoaded', function () {
+    fetchQuestions();
+  });
+
+  async function fetchQuestions() {
+    try {
+      const response = await fetch('/student/questions');
+      const data = await response.json();
+      var fillupQuestions = [];
+      var shortAnsQuestions = [];
+      exam_title = data.exam_title
+      data.questions_data.forEach(function (question) {
+        if (question.type === "fill_up" || question.type === "fillup") {
+          fillupQuestions.push(question);
+        } else if (question.type === "short_ans" || question.type === "shortans") {
+          shortAnsQuestions.push(question);
+        }
+      });
+      // Shuffle questions within their respective types
+      console.log(fillupQuestions)
+      console.log(shortAnsQuestions)
+      fillupQuestions = shuffleArray(fillupQuestions);
+      shortAnsQuestions = shuffleArray(shortAnsQuestions);
+      // Concatenate shuffled questions
+      questions = fillupQuestions.concat(shortAnsQuestions);
+      displayQuestion();
+      createSmallButtons();
+    } catch (error) {
+      console.log('Error fetching questions:', error);
+    }
+  }
+
+  function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+  }
+
+  function displayQuestion() {
+    var question = questions[currentQuestionIndex];
+    document.getElementById('questionNo').innerText = (currentQuestionIndex + 1) + ".";
+    document.getElementById('questionType').innerText = exam_title + " - " + (question.type === "fill_up" || question.type === "fillup" ? "Fillups" : "Short Answer");
+    document.getElementById('questionText').innerText = question.question;
+    document.getElementById('answer').value = answers[currentQuestionIndex] || ""; // Get answer from stored answers
+
+    var previousBtn = document.getElementById('previousBtn');
+    var nextBtn = document.getElementById('nextBtn');
+    var submitBtn = document.getElementById('submitButton');
+    if (currentQuestionIndex === 0) {
+      previousBtn.style.display = 'none'; // Hide previous button for the first question
+    } else {
+      previousBtn.style.display = 'inline-block'; // Show previous button for other questions
+    }
+
+    if (currentQuestionIndex === questions.length - 1) {
+      nextBtn.style.display = 'none'; // Hide next button for the last question
+      submitBtn.style.display = 'inline-block'; // Show submit button for the last question
+    } else {
+      nextBtn.style.display = 'inline-block'; // Show next button for other questions
+      submitBtn.style.display = 'none'; // Hide submit button for other questions
+    }
+  }
+
+
+  function nextQuestion() {
+    if (currentQuestionIndex < questions.length - 1) {
+      // Check if the textarea has content
+      var answer = document.getElementById('answer').value.trim();
+      var currentQuestionButton = document.getElementById('questionButtons').children[currentQuestionIndex];
+      if (answer !== "") {
+        // If content is filled, change the background color of the button
+        currentQuestionButton.classList.remove('reviewed');
+        currentQuestionButton.classList.add('filled');
+      } else {
+        // If content is cleared, remove the filled class
+        currentQuestionButton.classList.remove('filled');
+      }
+
+      currentQuestionIndex++;
+      displayQuestion();
+    }
+  }
+
+  // Add an event listener to the textarea to detect changes
+  document.getElementById('answer').addEventListener('input', function () {
+    var answer = this.value.trim();
+    var currentQuestionButton = document.getElementById('questionButtons').children[currentQuestionIndex];
+    if (answer !== "") {
+      // If content is filled, change the background color of the button
+      currentQuestionButton.classList.remove('reviewed');
+      currentQuestionButton.classList.add('filled');
+    } else {
+      // If content is cleared, remove the filled class
+      currentQuestionButton.classList.remove('filled');
+    }
+  });
+
+
+
+  // Function to navigate to the previous question
+  function previousQuestion() {
+    if (currentQuestionIndex > 0) {
+      currentQuestionIndex--;
+      displayQuestion();
+    }
+  }
+
+  // Function to display question based on button click
+  function displayQuestionByIndex(index) {
+    currentQuestionIndex = index;
+    displayQuestion();
+    var currentButton = document.querySelector('#questionButtons button:nth-child(' + (currentQuestionIndex + 1) + ')');
+    currentButton.classList.add('current');
+  }
+
+  function markForReview() {
+    // Get the current question button based on the currentQuestionIndex
+    var currentQuestionButton = document.getElementById('questionButtons').children[currentQuestionIndex];
+    let review_star = document.getElementById('review-star')
+    // Check if the question has been answered
+    var answer = answers[currentQuestionIndex];
+
+    // Toggle a class to indicate the question is marked for review
+    currentQuestionButton.classList.toggle('reviewed');
+    review_star.classList.toggle('re_star');
+    console.log(review_star)
+
+    // If the question has been answered, add the 'filled' class to indicate it
+    if (answer && answer.trim() !== "") {
+      currentQuestionButton.classList.add('filled');
+    }
+  }
+
+  document.getElementById('markReviewBtn').addEventListener('click', markForReview);
+
+  function confirmSubmitQuiz() {
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, submit it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        submitQuiz();
+      }
+    });
+  }
+
+  function submitQuiz() {
+    showLoadingScreen();
+    var answersToSend = [];
+    questions.forEach(function (question, index) {
+      answersToSend.push({
+        _id: question._id,
+        answer: answers[index] || "",
+      });
+    });
+    console.log({
+      exam_title: exam_title,
+      questions: answersToSend
+    })
+    fetch('/student/submit-quiz', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        exam_title: exam_title,
+        questions: answersToSend
+      })
+    })
+      .then(response => {
+        hideLoadingScreen();
+        return response.json().then(data => ({ status: response.status, body: data }));
+      })
+      .then(({ status, body }) => {
+        if (status === 200) {
+          Swal.fire(
+            'Submitted!',
+            'Your exam has been submitted successfully.',
+            'success'
+          ).then(() => {
+            window.location.href = '/student/student-dashboard'; // Redirect to home page after submission
+          });
+        } else {
+          let errorMessage = body.error || 'An unexpected error occurred.';
+          let redirectUrl = '/student/student-dashboard';
+
+          if (status === 401) {
+            redirectUrl = '/';
+          }
+
+          Swal.fire(
+            'Error!',
+            errorMessage,
+            'error'
+          ).then(() => {
+            window.location.href = redirectUrl;
+          });
+        }
+      })
+      .catch(error => {
+        hideLoadingScreen();
+        console.error('Error submitting quiz:', error);
+        let errorMessage = 'An unexpected error occurred.';
+        let redirectUrl = '/student/student-dashboard';
+
+        if (error.response && error.response.data) {
+          errorMessage = error.response.data.error;
+          if (error.response.status === 401) {
+            redirectUrl = '/';
+          }
+        }
+
+        Swal.fire(
+          'Error!',
+          errorMessage,
+          'error'
+        ).then(() => {
+          window.location.href = redirectUrl;
+        });
+      });
+  }
+
+  // Function to store answer for the current question
+  document.getElementById('answer').addEventListener('input', function () {
+    answers[currentQuestionIndex] = this.value;
+  });
+
+  // Function to create small buttons
+  function createSmallButtons() {
+    var questionButtons = document.getElementById('questionButtons');
+    for (var i = 0; i < questions.length; i++) {
+      var button = document.createElement('button');
+      button.innerText = (i + 1).toString();
+      button.setAttribute('onclick', 'displayQuestionByIndex(' + i + ')');
+      if (questions[i].type === "fill_up" || questions[i].type === "fillup") {
+        button.classList.add('fillButton'); // For fill in the blanks
+      } else if (questions[i].type === "short_ans" || questions[i].type === "shortans") {
+        button.classList.add('shortButton'); // For short answer
+      }
+      questionButtons.appendChild(button);
+    }
+  }
+
+
+  // Global flag to prevent multiple alerts at the same time
+  let isAlertActive = false;
+
+  // Function to enter fullscreen
+  function enterFullScreen() {
+    const elem = document.documentElement; // Make the entire page fullscreen
+    if (elem.requestFullscreen) {
+      elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) {
+      elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) {
+      elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) {
+      elem.msRequestFullscreen();
+    }
+  }
+
+  // Function to check fullscreen status and handle exit
+  function checkFullScreen() {
+    if (!document.fullscreenElement && !isAlertActive) {
+      isAlertActive = true; // Set alert as active
+      Swal.fire({
+        icon: 'warning',
+        title: 'Warning!',
+        text: 'You have exited fullscreen mode. Please return to fullscreen to continue the exam.',
+        confirmButtonText: 'Go Fullscreen',
+        allowOutsideClick: false
+      }).then(() => {
+        enterFullScreen(); // Re-enter fullscreen mode when user clicks OK
+        isAlertActive = false; // Reset alert flag
+      });
+    }
+  }
+
+  // Ensure the page enters fullscreen on load
+  window.onload = function () {
+    isAlertActive = true; // Set alert as active
+    Swal.fire({
+      icon: 'warning',
+      title: 'Warning!',
+      text: 'You need to be in fullscreen mode to attend the exam.',
+      confirmButtonText: 'Go Fullscreen',
+      allowOutsideClick: false
+    }).then(() => {
+      enterFullScreen(); // Re-enter fullscreen mode when user clicks OK
+      isAlertActive = false; // Reset alert flag
+    });
+  };
+
+  // Tab switching restriction with countdown
+  let isTabActive = true;
+  let tabSwitchWarnings = 4; // Number of warnings allowed for tab switching
+
+  window.addEventListener('blur', () => {
+    isTabActive = false;
+
+    if (tabSwitchWarnings > 0 && !isAlertActive) {
+      isAlertActive = true; // Set alert as active
+      Swal.fire({
+        icon: 'warning',
+        title: 'Restricted Action',
+        text: `You cannot switch tabs or windows. Warnings left: ${tabSwitchWarnings - 1}`,
+        confirmButtonText: 'Okay',
+        allowOutsideClick: false
+      }).then(() => {
+        tabSwitchWarnings--;
+        if (tabSwitchWarnings === 0) {
+          submitQuiz();
+        }
+        enterFullScreen();
+        isAlertActive = false; // Reset alert flag
+      });
+    }
+  });
+
+  window.addEventListener('focus', () => {
+    if (!isTabActive) {
+      isTabActive = true;
+    }
+  });
+
+  // Listen for fullscreen change
+  document.addEventListener('fullscreenchange', checkFullScreen);
+
+  // Prevent copy, cut, and paste actions
+  const textarea = document.getElementById('answer');
+
+  textarea.addEventListener('copy', (e) => {
+    e.preventDefault();
+  });
+
+  textarea.addEventListener('cut', (e) => {
+    e.preventDefault();
+  });
+
+  textarea.addEventListener('paste', (e) => {
+    e.preventDefault();
+  });
+
+  // Optional: Function to resize textarea based on input
+  function resizeTextarea() {
+    const element = document.getElementById('answer');
+    element.style.height = 'auto';
+    element.style.height = `${element.scrollHeight}px`;
+  }
+
+  // Disable common keyboard shortcuts for copying
+  document.addEventListener('keydown', function (e) {
+    if (
+      (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 'a')) || // Ctrl+C, Ctrl+X, Ctrl+A
+      (e.metaKey && (e.key === 'c' || e.key === 'x' || e.key === 'a')) || // Cmd+C, Cmd+X, Cmd+A (for macOS)
+      (e.key === 'PrintScreen') // Print Screen key
+    ) {
+      e.preventDefault();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    // Block F5, Ctrl+R, and Cmd+R
+    if (
+      (e.key === 'F5') || // F5 Key
+      (e.ctrlKey && e.key === 'r') || // Ctrl+R
+      (e.metaKey && e.key === 'r') // Cmd+R (for macOS)
+    ) {
+      e.preventDefault(); // Stop the default reload action
+    }
+  });
+</script>
+
+<script type="text/javascript">
+  window.onbeforeunload = function () {
+    return "You cannot leave this page during the exam. Please finish your exam before leaving.";
+  }
+  //restrict reloading the page
+  window.addEventListener('beforeunload', function (event) {
+    event.preventDefault();
+    event.returnValue = '';
+  });
+
+  //retrict f5 to reload the page
+  window.addEventListener('keydown', function (event) {
+    if (event.key === 'F5') {
+      event.preventDefault();
+    }
+  });
+</script>
+
+{% endblock content %}

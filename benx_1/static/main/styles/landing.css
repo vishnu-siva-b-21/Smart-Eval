@@ -1,0 +1,31 @@
+.bg-holder {
+    background-image:url(../assets/img/illustration/2.png);
+    background-position:left top;
+    background-size:contain;
+}
+
+.hero-bg {
+    background-image: url(../assets/img/illustration/1.jpg);
+    background-size: contain; /* Ensures the image fits within the container */
+    background-repeat: no-repeat; /* Prevents tiling of the image */
+    background-position: right top; /* Aligns the background image to the right top corner */
+    transform: scale(0.7); /* Scales the entire element, including its background */
+    transform-origin: right top; /* Ensures scaling originates from the top-right corner */
+}
+
+.products{
+    margin-top: 3vh !important;
+}
+
+.image-section2{
+    margin-left: 20%;
+}
+
+@media (max-width:960px){
+    .image-section2{
+        margin-left: 0;
+        width: 50% !important;
+        height: 50% !important;
+        margin-left: 25%;
+    }
+}

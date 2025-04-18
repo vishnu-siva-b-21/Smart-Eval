@@ -1,0 +1,63 @@
+{% extends "student/base.html" %}
+{% block title %} Exam_instruction {% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{url_for('static', filename='student/styles/exam_instruction.css')}}">
+
+{% endblock styles %}
+
+{% block content %}
+<div class="container">
+    <h1>INSTRUCTIONS</h1>
+    <h3> <i>1.</i> Test Duration: The duration of the test will be specified by the staff administering
+        the test. Please adhere to the time limit strickly. Once the test duration ends, you
+        will not be able to submit any further responses
+    </h3>
+    <h3> <i>2.</i> Question Format: The test comprises fill-in-the-blank and short answer questions</h3>
+    <h3> <i>3.</i> Fill-ups: You will encounter questions with blanks. Fill in the blanks with the appropriate
+        words or phrases. Ensure your answers are accurate and concise.
+    </h3>
+    <h3> <i>4.</i> Short Answers: You will also encounter questions. Write the appropriate answers for
+        each question.
+    </h3>
+    <h3> <i>5.</i> Scoring: Each fill-up question carries 1 marks. Each coorect short answer carries 2 marks.
+        There is no negative marking.
+    </h3>
+    <h3> <i>6.</i> Submission: You may submit your responses at any point during the test. However, ensure all
+        answers are final before submission, as you will not be able to make changes once submitted.
+        The exam will be automatically closed if the faculty chose to close it.
+    </h3>
+    <button type="button" class="start" onclick="confirmStartExam()">Start Exam</button>
+
+    <script>
+        function confirmStartExam() {
+            // Display a confirmation dialog using SweetAlert
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You are about to start the exam!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, start the exam!',
+                cancelButtonText: 'No, cancel'
+            }).then((result) => {
+                // If the user confirms, send a POST request to start the exam
+                if (result.isConfirmed) {
+                    fetch('/student/exam', {
+                        method: 'POST',
+                    })
+                    .finally(() => {
+                        window.location.href = "{{ url_for('student.exam') }}";
+                    });
+                }
+            });
+        }
+    </script>
+    
+    
+</div>
+<script src="{{url_for('static', filename='student/scripts/instruction.js')}}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+{% endblock content %}

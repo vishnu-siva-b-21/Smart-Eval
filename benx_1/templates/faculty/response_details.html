@@ -1,0 +1,209 @@
+{% extends "faculty/base.html" %}
+
+{% block title %}
+    {{student_data.register_number}} - response
+{% endblock title %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='faculty/styles/response_details.css') }}">
+{% endblock styles %}
+
+{% block content %}
+
+<div class="temp"></div>
+    <section class="dashboard">
+        
+
+        <div class="box">
+            <div>
+                <h2>{{ student_data.name.title() }} Details</h2>
+                <div class="student-box">
+                    {% for data in student_data %}
+                        <p>{{data.replace("_"," ").title()}} : {{student_data[data]}}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>
+                <h1>{{ data.exam_title }} Answers</h1>
+                <div class="exam-box">
+                    {% for qp in data.response %}
+                        <div class="question-set">
+                            <div class="question">
+                                <span>Question:</span><p class="ques">{{qp.get('question')}}</p>
+                                <span>{{qp.total_ques_mark}} mark</span>
+                            </div>
+                            <div class="question">
+                            <span>Student ans:</span><p class="ques">{{qp.get('student_answer')}} </p>
+                            </div>
+                            <div class="question">
+                                <span>Correct ans:</span><p class="ques">{{qp.get('correct_answer')}}</p>
+                                </div>
+                            <form action="{{url_for('faculty.update_mark', reg_no=student_data.register_number, exam_id = data.exam_id, question_id=qp._id)}}" method="POST">
+                                <p class="prev_mark" style="display:none">{{qp.student_ques_mark}}</p>
+                                <p>Student mark : <input name="new_mark" class="change-box" type="text" value="{{qp.student_ques_mark}}">/{{qp.total_ques_mark}} 
+                                <button type="submit" class="change-btn">change mark</button></p>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+                
+            </div>
+            <form action="{{url_for('faculty.exam_details', sec=student_data.section, exam_id=data.exam_id)}}" method="POST">
+                <button type="submit" class="go-back" >Go Back</button>
+            </form>   
+        </div>
+    </section>
+{% endblock content %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const inputs = document.querySelectorAll('.change-box');
+
+        function adjustWidth(input) {
+            const tempSpan = document.createElement('span');
+            tempSpan.style.visibility = 'hidden';
+            tempSpan.style.whiteSpace = 'pre';
+            tempSpan.style.fontSize = getComputedStyle(input).fontSize;
+            tempSpan.style.fontFamily = getComputedStyle(input).fontFamily;
+            tempSpan.innerText = input.value || input.placeholder;
+            document.body.appendChild(tempSpan);
+            input.style.width = `${tempSpan.offsetWidth + 10}px`;
+            document.body.removeChild(tempSpan);
+        }
+
+        inputs.forEach(input => {
+            adjustWidth(input); // Adjust width on page load
+            input.addEventListener('input', () => adjustWidth(input)); // Adjust width on input change
+        });
+
+        // Form validation
+        document.querySelectorAll('form').forEach(form => {
+            form.addEventListener('submit', function(event) {
+                const prev_mark = parseFloat(form.querySelector('.prev_mark').textContent);
+                const input = form.querySelector('.change-box');
+                const newMark = parseFloat(input.value);
+                const totalMark = parseFloat(input.nextElementSibling.textContent.trim().split('/')[1]);
+
+                if (isNaN(newMark) || newMark < 0 || newMark > totalMark) {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Invalid Mark',
+                        text: 'Please enter a valid mark that is a number between 0 and ' + totalMark + '.'
+                    }).then(() => {
+                        input.value = prev_mark;
+                        adjustWidth(input);
+                    });
+                    return;
+                }
+
+                if (prev_mark === newMark) {
+                    event.preventDefault();
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Same Mark',
+                        text: 'Please change the mark before updating.'
+                    }).then(() => {
+                        input.value = prev_mark;
+                        adjustWidth(input);
+                    });
+                }
+            });
+        });
+    });
+
+
+        // navbar script
+
+const body = document.querySelector("body"),
+modeToggle = body.querySelector(".mode-toggle");
+sidebar = body.querySelector("nav");
+sidebarToggle = body.querySelector(".sidebar-toggle");
+
+let getMode = localStorage.getItem("mode");
+if (getMode && getMode === "dark") {
+    body.classList.toggle("dark");
+}
+
+let getStatus = localStorage.getItem("status");
+if (getStatus && getStatus === "close") {
+    sidebar.classList.toggle("close");
+}
+
+
+
+sidebarToggle.addEventListener("click", () => {
+    sidebar.classList.toggle("close");
+    if (sidebar.classList.contains("close")) {
+        localStorage.setItem("status", "close");
+    } else {
+        localStorage.setItem("status", "open");
+    }
+})
+
+
+
+
+// Logout sweet alert 
+
+
+document.getElementById('confirmationButton').addEventListener('click', function (event) {
+    // Prevent the default behavior (navigation) until confirmation
+    event.preventDefault();
+  
+    // Show confirmation Sweet Alert
+    Swal.fire({
+      title: 'Logout Confirmation',
+      text: 'Are you sure you want to logout?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, logout!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // If confirmed, proceed to the linked page
+        window.location.href = this.getAttribute('href');
+      } else if (result.dismiss === Swal.DismissReason.cancel) {
+        // If canceled, do nothing or handle accordingly
+      }
+    });
+  });
+  
+
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var dashboardTop = document.querySelector('.dashboard .top');
+    var logoImage = document.querySelector('.logo-image');
+
+    dashboardTop.addEventListener('click', function () {
+        // Toggle the 'hidden' class on the logo-image element
+        logoImage.classList.toggle('hidden');
+    });
+});
+
+
+
+document.addEventListener('DOMContentLoaded', function () {
+  // Retrieve input values from local storage
+  const selectedSection = localStorage.getItem("selectedSection");
+  const selectedExamName = localStorage.getItem("selectedExamName");
+
+  if (selectedSection && selectedExamName) {
+      // If values exist, insert them into the table
+      const examNameCell = document.querySelector('.exam-name');
+      const sectionCell = document.querySelector('.section');
+
+      examNameCell.textContent = selectedExamName;
+      sectionCell.textContent = selectedSection;
+
+      // Clear local storage
+      localStorage.removeItem("selectedSection");
+      localStorage.removeItem("selectedExamName");
+  }
+});
+
+</script>
+{% endblock scripts %}
+

@@ -1,0 +1,74 @@
+{% extends "faculty/base.html" %}
+
+{% block title %}
+    Exam Details2 Page
+{% endblock title %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{url_for('static', filename='faculty/styles/exam_absent.css')}}">
+    <style>
+        .box {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+        }
+        
+        .none_message {
+            text-align: center; /* Center text */
+        }
+        
+        
+    </style>
+{% endblock styles %}
+
+{% block content %}
+<section class="dashboard">
+   
+    <div class="box">
+        {% if table_data|length != 0 %}
+        <div class="content">
+            <h1><span id="exam_title">{{ exam_title }}</span> Details</h1>
+        <div class="inner-content">
+        <table class="table table-sm table-striped table-sortable" style="table-layout: fixed;">
+            <thead>
+            <tr >
+                <th data-sort="int">Register No</th>
+                <th data-sort="string">Section</th>
+                <th data-sort="string">Name</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for row in table_data %}
+            <tr>
+                <th>{{ row.register_number }}</th>
+                <td>{{ row.section }}</td>
+                <td>{{ row.name }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+        </div>
+
+        <div class="button">
+            <div class="row1"> 
+                <button type="button" class="download">Download Exam Data</button>
+                <button type="button" class="reload" onclick= "window.location.reload();">Reload Now</button>
+              </div>
+            <div class="row2">
+                <button type="button" class="go-back" onclick= "window.location.href='javascript:history.go(-1)'">Go Back</button>
+            </div>
+        </div>
+            </div >
+    {% else %}
+    <div class="none_message">
+        <h1>All completed the exam please reload to cross-check</h1>
+        <button type="button" class="reload" onclick= "window.location.reload();">Reload Now</button>
+    </div>
+{% endif %}
+    </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+    <script src="{{url_for('static', filename='faculty/scripts/exam_absent.js')}}"></script>
+{% endblock scripts %}

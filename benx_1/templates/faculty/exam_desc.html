@@ -1,0 +1,213 @@
+{% extends "faculty/base.html" %}
+
+{% block title %}
+Question Range Page
+{% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='faculty/styles/exam_desc.css') }}">
+
+<link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/css/multi-select-tag.css">
+
+{% endblock styles %}
+
+{% block content %}
+<section class="dashboard">
+
+    <div class="box1">
+        <div class="inner-box">
+            <div class="content">
+                <h1>Exam Description</h1>
+                <div class="value-content">
+                    <form id="questionForm" action="/faculty/create-ques" method="POST">
+                        <div class="inner-head">
+                            <div class="inner-question">
+                                <div class="inner-question1 left-content">
+                                    <label>Exam Title: </label>
+                                </div>
+                                <div class="inner-question2 right-content">
+                                    <input type="text" class="title" name="title_count" id="titleInput"
+                                        placeholder="Enter Valid Title">
+                                    <p class="error-message" id="titleErrorMessage"></p>
+                                </div>
+                            </div>
+                            <div class="inner-question">
+                                <div class="inner-question3 left-content">
+                                    <label>No of Fillups: </label>
+                                </div>
+                                <div class="inner-question4 right-content">
+                                    <input type="text" class="fill" name="fill_count" id="fillInput"
+                                        placeholder="Enter Valid Number">
+                                    <p class="error-message" id="fillErrorMessage"></p>
+                                </div>
+                            </div>
+                            <div class="inner-question">
+                                <div class="inner-question5 left-content">
+                                    <label>No of 2 marks: </label>
+                                </div>
+                                <div class="inner-question6 right-content">
+                                    <input type="text" class="marks" name="shortans_count" id="marksInput"
+                                        placeholder="Enter Valid Number">
+                                    <p class="error-message" id="marksErrorMessage"></p>
+                                </div>
+                            </div>
+                            <div class="inner-question">
+                                <div class="inner-question7 left-content">
+                                    <label>Select Section: </label>
+                                </div>
+                                <div class="inner-question8 right-content">
+                                    <select name="sec" id="sections" multiple>
+                                        <option value="A1">A1</option>
+                                        <option value="A2">A2</option>
+                                        <option value="A3">A3</option>
+                                        <option value="A4">A4</option>
+                                        <option value="A5">A5</option>
+                                        <option value="B1">B1</option>
+                                        <option value="B2">B2</option>
+                                        <option value="B3">B3</option>
+                                        <option value="B4">B4</option>
+                                        <option value="B5">B5</option>
+                                        <option value="C1">C1</option>
+                                        <option value="C2">C2</option>
+                                        <option value="C3">C3</option>
+                                        <option value="C4">C4</option>
+                                        <option value="C5">C5</option>
+                                        <option value="D1">D1</option>
+                                        <option value="D2">D2</option>
+                                        <option value="D3">D3</option>
+                                        <option value="D4">D4</option>
+                                        <option value="D5">D5</option>
+                                        <option value="E1">E1</option>
+                                        <option value="E2">E2</option>
+                                        <option value="E3">E3</option>
+                                        <option value="E4">E4</option>
+                                        <option value="E5">E5</option>
+                                        <option value="G1">G1</option>
+                                        <option value="G2">G2</option>
+                                    </select>
+                                    <p class="error-message section-error" id="sectionsErrorMessage"></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button class="button" type="submit" class="next" onclick="getSelectedOptions()">Next</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag@2.0.1/dist/js/multi-select-tag.js"></script>
+
+<script>
+    new MultiSelectTag("sections");
+</script>
+
+
+{% endblock content %}
+
+{% block scripts %}
+
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const form = document.getElementById("questionForm");
+
+        if (form) {
+            const inputs = form.querySelectorAll('.title, .fill, .marks');
+            const selectElement = document.getElementById('sections');
+
+            function resetFormStyles() {
+                form.querySelectorAll('.inner-question').forEach(question => {
+                    question.classList.remove("invalid");
+                });
+
+                form.querySelectorAll('.error-message').forEach(message => {
+                    message.textContent = "";
+                    message.classList.remove("error");
+                });
+            }
+
+            function setInvalid(element, errorMessage) {
+                const parentContainer = element.closest('.inner-question');
+                parentContainer.classList.add("invalid");
+
+                const errorField = parentContainer.querySelector('.error-message');
+                errorField.textContent = errorMessage;
+                errorField.classList.add("error");
+            }
+
+            function validateTitle() {
+                const titleInput = form.querySelector('.title');
+                if (!titleInput.value.trim()) {
+                    setInvalid(titleInput, "Title is required");
+                    return false;
+                }
+                return true;
+            }
+
+            function validateNumber(input, errorMessage) {
+                const value = input.value.trim();
+                if (!value || isNaN(value) || parseInt(value) < 0) {
+                    setInvalid(input, errorMessage);
+                    return false;
+                }
+                return true;
+            }
+            function validateSelect() {
+                const selectedOptions = Array.from(selectElement.selectedOptions).map(option => option.textContent);
+                console.log(selectedOptions); // Log the array of selected options
+                if (selectedOptions.length === 0) {
+                    setInvalid(selectElement, "Select the Section");
+                    return false;
+                }
+                return true;
+            }
+
+
+            form.addEventListener("submit", function (e) {
+                e.preventDefault();
+
+                resetFormStyles();
+
+                const isTitleValid = validateTitle();
+                const isFillValid = validateNumber(form.querySelector('.fill'), "Enter a valid number");
+                const isMarksValid = validateNumber(form.querySelector('.marks'), "Enter a valid number");
+                const isSelectValid = validateSelect();
+
+
+                const fill = form.querySelector('.fill').value.trim();
+                const short = form.querySelector('.marks').value.trim();
+
+
+                if (isTitleValid && isFillValid && isMarksValid) {
+                    if (fill == 0 && short == 0) {
+                        swal.fire("Either of any type of question should have atleast one question")
+                        form.querySelector('.fill').value = ""
+                        form.querySelector('.marks').value = ""
+                    }
+                    else {
+                        if (isSelectValid) {
+                            form.submit();
+                        }
+                    }
+                }
+            });
+        } else {
+            console.error("Form element not found");
+        }
+    });
+
+
+
+</script>
+
+<script src="{{ url_for('static', filename='faculty/scripts/exam_desc.js') }}"></script>
+{% endblock scripts %}

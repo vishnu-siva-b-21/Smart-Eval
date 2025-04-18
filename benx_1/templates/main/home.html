@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login Page</title>
+  <link rel="icon" type="image/x-icon" href="{{url_for('static', filename='main/images/benx.png')}}">
+  <link href="
+  https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.min.css
+  " rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="{{url_for('static', filename='main/styles/style.css')}}">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+  <style>
+    .invalid {
+      border-color: crimson;
+    }
+
+    .invalid:hover {
+      border-color: crimson;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Animation - Start-->
+  <div class="area">
+    <ul class="circles">
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+    </ul>
+  </div>
+
+  <!--Animation - End-->
+
+  <!--content - Start-->
+  <div class="parent">
+    <div class="container">
+      <div class="tabs">
+        <h3 class="active">Student</h3>
+        <h3>Teacher</h3>
+      </div>
+      <div class="tab-content">
+        <div class="active">
+          <h4>Student Login</h4>
+          <form id="studentForm" method="POST" action="/student/login-student">
+            <label for="registerNumber">Register Number:</label>
+            <input type="text" id="registerNumber" name="registerNumber" oninput="validateInput(event)" maxlength="8">
+            <span class="error" id="registerNumberError"></span>
+
+            <label for="stu_password">Password:</label>
+            <input type="password" id="stu_password" name="stu_password">
+            <i class="fas fa-eye-slash" id="toggleStuPassword"></i>
+            <span class="error" id="stu_passwordError"></span>
+
+            <!-- Add more fields as needed -->
+            <br>
+            <input type="submit" value="Login">
+          </form>
+        </div>
+
+        <div>
+          <h4>Staff Login</h4>
+          <form id="teacherForm" method="POST" action="/faculty/login-faculty">
+            <label for="email">Email:</label>
+            <input type="text" id="email" name="email">
+            <span class="error" id="emailError"></span>
+
+            <label for="fal_password">Password:</label>
+            <input type="password" id="fal_password" name="fal_password">
+            <i class="fas fa-eye-slash" id="togglePassword"></i>
+            <span class="error" id="fal_passwordError"></span>
+            <!-- Add more fields as needed -->
+            <br>
+            <input type="submit" value="Login">
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--Content -  End -->
+  <script src="
+  https://cdn.jsdelivr.net/npm/sweetalert2@11.10.7/dist/sweetalert2.all.min.js
+  "></script>
+  <script src="{{url_for('static', filename='main/scripts/script.js')}}"></script>
+
+  <!-- Flask flashed messages with SweetAlert -->
+
+  {% with messages = get_flashed_messages(with_categories = true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <script>
+    Swal.fire({
+      icon: '{{ category }}',
+      title: '{{ message }}',
+      showConfirmButton: false,
+      timer: 3000
+    });
+  </script>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+</body>
+
+</html>

@@ -1,0 +1,347 @@
+
+/*content style - Start*/
+
+
+.container{
+    width: 100%;
+}
+
+.dashboard{
+   margin-left: 4%;
+}
+
+@media (max-width:1000px){
+   
+    .top-fixed{
+        height: 13vh;
+        width: 100%;
+    }
+    .box{
+        margin-top: -2vh;
+    }
+}
+
+@media (max-width:700px){
+   
+    .top-fixed{
+        height: 12vh;
+    }
+}
+
+
+body{
+    color: #1a202c;
+    text-align: left;
+    background-color: #CFCFDE ; 
+    font-family: inter;
+}
+
+.box {
+    width: 95%;
+    height: auto;
+    background-color: #303775;
+    border-radius: 10px;
+}
+
+.content {
+    margin-left: 10%;
+    width: 100%;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
+
+.content h2 {
+    font-weight: 700;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    color: white;
+}
+
+.fill_ques {
+    width: 32%;
+    height: 10vh;
+    border-radius: 10px;
+    border: solid;
+    border-color: rgb(0, 0, 169);
+    margin-right: 5vh;
+    padding: 20px;
+}
+
+.fill_ans {
+    width: 32%;
+    height: 10vh;
+    border-radius: 10px;
+    border: solid;
+    border-color: rgb(0, 0, 169);
+    padding: 20px;
+}
+
+.shortans_field {
+    width: 32%;
+    height: 18vh;
+    border-radius: 10px;
+    border: solid;
+    border-color: rgb(0, 0, 169);
+    margin-right: 5vh;
+    padding: 15px;
+}
+
+.shortans_ans {
+    width: 32%;
+    height: 18vh;
+    border-radius: 10px;
+    border: solid;
+    border-color: rgb(0, 0, 169);
+    padding: 15px;
+}
+
+.content button {
+    width: 200px;
+    padding: 10px 0;
+    margin: 20px 0;
+    border-radius: 10px;
+    margin-left: 27%;
+    border-style: hidden;
+    background-color: rgb(32, 160, 0);
+    color: white;
+}
+
+.content label{
+    color: white;
+    font-weight: 600;
+    position: relative;
+    top: -7vh;
+}
+
+.content .short-label{
+    position: relative;
+    top: -14vh;
+}
+
+@media (max-width:1000px){
+    .fill_ques {
+        width: 32%;
+        height: 10vh;
+        border-radius: 10px;
+        border: solid;
+        border-color: rgb(0, 0, 169);
+        margin-right: 5vh;
+        padding: 20px;
+        font-size: 14px;
+    }
+    
+    .fill_ans {
+        width: 32%;
+        height: 10vh;
+        border-radius: 10px;
+        border: solid;
+        border-color: rgb(0, 0, 169);
+        padding: 20px;
+        font-size: 14px;
+    }
+    
+    .shortans_field {
+        width: 32%;
+        height: 18vh;
+        border-radius: 10px;
+        border: solid;
+        border-color: rgb(0, 0, 169);
+        margin-right: 5vh;
+        padding: 15px;
+        font-size: 14px;
+    }
+    
+    .shortans_ans {
+        width: 32%;
+        height: 18vh;
+        border-radius: 10px;
+        border: solid;
+        border-color: rgb(0, 0, 169);
+        padding: 15px;
+        font-size: 14px;
+    }
+    
+    .content button {
+        width: 150px;
+        padding: 7px 0;
+        margin: 20px 0;
+        border-radius: 10px;
+        margin-left: 27%;
+        border-style: hidden;
+        background-color: rgb(32, 160, 0);
+        color: white;
+    }
+}
+
+@media (max-width:650px){
+
+    .box{
+        margin-top: 5vh !important;
+    }
+        .fill_ques {
+            width: 35%;
+            height: 10vh;
+            border-radius: 10px;
+            border: solid;
+            border-color: rgb(0, 0, 169);
+            margin-right: 5vh;
+            padding: 5px;
+            font-size: 12px;
+        }
+        
+        .fill_ans {
+            width: 35%;
+            height: 10vh;
+            border-radius: 10px;
+            border: solid;
+            border-color: rgb(0, 0, 169);
+            padding: 5px;
+            font-size: 12px;
+        }
+        
+        .shortans_field {
+            width: 35%;
+            height: 18vh;
+            border-radius: 10px;
+            border: solid;
+            border-color: rgb(0, 0, 169);
+            margin-right: 5vh;
+            padding: 5px;
+            font-size: 12px;
+        }
+        
+        .shortans_ans {
+            width: 35%;
+            height: 18vh;
+            border-radius: 10px;
+            border: solid;
+            border-color: rgb(0, 0, 169);
+            padding: 5px;
+            font-size: 12px;
+        }
+        
+        .content button {
+            width: 150px;
+            padding: 7px 0;
+            margin: 20px 0;
+            border-radius: 10px;
+            margin-left: 27%;
+            border-style: hidden;
+            background-color: rgb(32, 160, 0);
+            color: white;
+        }
+    }
+
+@media (max-width:450px){
+    .dashboard .top{
+        margin-left: 1vh ;
+    }
+    .box{
+        margin-left: 1vh;
+    }
+    .content{
+        margin-left: -5%;
+    }
+    
+.content h2 {
+    font-weight: 700;
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+    color: white;
+    font-size: 25px;
+}
+
+.content label{
+    font-size: 12px;
+    font-weight: 500;
+}
+    .content button {
+        width: 100px;
+        padding: 5px 0;
+        margin: 20px 0;
+        border-radius: 10px;
+        margin-left: 27%;
+        border-style: hidden;
+        background-color: rgb(32, 160, 0);
+        color: white;
+    }
+
+    .fill_ans{
+        margin-left: -3vh;
+    }
+    .shortans_ans{
+        margin-left: -3vh;
+    }
+}
+
+@media (max-width:300px){
+    .dashboard .logo{
+        width: 120px;
+        height: 30px;
+    }
+    .dashboard .top{
+        width: 90vw !important;
+    }
+    .box{
+        width: 99%;
+    }
+
+    .fill_ques {
+        width: 32%;
+        height: 10vh;
+        border-radius: 10px;
+        border: solid;
+        border-color: rgb(0, 0, 169);
+        margin-right: 5vh;
+        padding: 5px;
+        font-size: 12px;
+    }
+    
+    .fill_ans {
+        width: 32%;
+        height: 10vh;
+        border-radius: 10px;
+        border: solid;
+        border-color: rgb(0, 0, 169);
+        padding: 5px;
+        font-size: 12px;
+    }
+    
+    .shortans_field {
+        width: 32%;
+        height: 18vh;
+        border-radius: 10px;
+        border: solid;
+        border-color: rgb(0, 0, 169);
+        margin-right: 5vh;
+        padding: 5px;
+        font-size: 12px;
+    }
+    
+    .shortans_ans {
+        width: 32%;
+        height: 18vh;
+        border-radius: 10px;
+        border: solid;
+        border-color: rgb(0, 0, 169);
+        padding: 5px;
+        font-size: 12px;
+    }
+    
+    .content button {
+        width: 90px;
+        padding: 2px 0;
+        border-style: hidden;
+        background-color: rgb(32, 160, 0);
+        color: white;
+    }
+
+
+    nav.close ~ .dashboard .top{
+        width: 80vw !important;
+    }
+
+    nav.close ~ .dashboard .box{
+        width: 80vw;
+    }
+}

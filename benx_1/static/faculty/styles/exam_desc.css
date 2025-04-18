@@ -1,0 +1,415 @@
+/*Content Style - Start*/
+
+
+.dashboard{
+   margin-left: 4%;
+}
+                                               
+.box1{
+    height: auto;
+    min-height: 85vh;
+    padding-bottom: 7vh;
+    background-color: #303775;
+    color: white;
+    border-radius: 20px;
+    margin-top: 5vh;
+    width: 95%;
+    padding-top: 7vh;
+}
+
+.inner-box{
+  background-color: #303775;
+  height: auto;
+  min-height: 75vh;
+  padding-bottom: 15vh;
+  padding-top: 4vh;
+  border-radius: 10px;
+  margin-left: 9%;
+  box-shadow: 10px 10px 10px 10px #1d245b;
+  width: 80%;
+}
+.inner-box .content{
+  margin-left: 10%;
+  margin-top: 3vh;
+}
+.inner-head{
+    display: flex;
+    flex-direction: column;
+}
+.inner-question{
+    display: flex;
+    flex-direction: row;
+    margin-top: 5vh;
+}
+.inner-question01{
+    display: flex;
+    flex-direction: row;
+    margin-top: 3vh;
+}
+.value-content label{
+  font-size: 25px;
+  font-weight: 600;
+  
+}
+.value-content input{
+    margin-left: 5%;
+    border-radius: 10px;
+    border-style: hidden;
+    height: 30px;
+    background-color: #CFCFDE;
+    padding-left: 10px;
+    margin-left: 8vw;
+    margin-top: 2vh;
+}
+
+.value-content button{
+  width: 100px;
+  height: 30px;
+  border-style: hidden;
+  border-radius: 10px;
+  background-color: green;
+  color: white;
+  position: relative;
+  left: 31%;
+  top: 3vh;
+ 
+}
+.value-content button:hover{
+    background-color: rgb(1, 154, 1);
+}
+   /* Hide the file input visually */
+   #csvFileInput {
+    display: none;
+  }
+
+
+  
+.inner-question8{
+    margin-left: 12.5%;
+}
+.rounded{
+    height: auto !important;
+    max-height: 45vh !important;
+    width: 20vw;
+}   
+
+.rounded ul li{
+    color: black;
+}
+.btn-container svg{
+    position: relative;
+    top: -3.5vh;
+}
+.btn-container button{
+    background-color: transparent !important;
+}
+
+.value-content button:hover{
+   background-color: transparent;
+}
+
+.mult-select-tag .btn-container{
+    border-left: 0px solid var(--border-color) !important;
+}
+
+.mult-select-tag {
+    width: 30% !important;
+    margin-bottom: 1rem;
+    --border-color: rgb(0, 0, 0) !important;
+}
+
+.mult-select-tag .body{
+    background-color: #CFCFDE !important;
+    border-radius: 10px !important;
+    height: 3vh;
+}
+.mult-select-tag button{
+    color: #000 !important;
+}
+.left-content{
+    width: 25%;
+}
+.mult-select-tag .body {
+    min-width: 13.5rem !important;
+    width: 10vh !important;
+    border-style: none !important;
+}
+
+.value-content button:hover{
+    background-color: #008000;
+}
+.section-error{
+    width: 100%;
+    margin-left: 15% !important;
+    margin-top: -1.5vh !important;
+}
+.rounded{
+    width: 250px !important;
+}
+
+.error-message{
+    margin-left: 45%;
+}
+  
+@media (max-width:1250px){
+    .box1 .content h1{
+        font-size: 35px;
+    }
+   
+    .value-content label{
+        font-size: 22px;
+        
+    }
+    .value-content input{
+        width: 180px;
+        margin-left: 8vh;
+    }
+    .value-content button{
+        margin-left: 3%;
+    }
+    .download-content{
+        margin-left: -5%;
+    }
+    .download-content p{
+        font-size: 22px;
+    }
+    .error-message{
+        margin-left:25% ;
+    }
+}
+@media (max-width:1000px){
+    .dashboard{
+        margin-top: -2vh;
+    }
+    .box1{
+        min-height: 93vh;
+        height: auto;
+        padding-bottom: 5vh;
+    }
+    .inner-box{
+        min-height: 83vh;
+        height: auto;
+        padding-bottom: 5vh;
+    }
+    .inner-head{
+        display: flex;
+        flex-direction: column;
+    }
+    .inner-question{
+        display: flex;
+        flex-direction: column;
+        margin-top: 1vh;
+    }
+    .inner-question01{
+        display: flex;
+        flex-direction: column;
+        margin-top: -3vh;
+    }
+    .value-content{
+        margin-top: 10vh;
+    }
+
+    .inner-question3{
+        margin-top: -3vh;
+    }
+    .section-error{
+        margin-left: -10vh !important;
+    }
+   .box1 .content h1{
+    font-size: 30px;
+    margin-bottom: 3vh;
+   } 
+   .value-content label{
+    font-size: 18px;
+   }
+   .value-content br{
+    display: none;
+   }
+   .value-content button{
+    margin-top: -10vh !important;
+   }
+   .value-content input{
+    display: flex;
+    flex-direction: column;
+    margin-top: 1vh;
+   }
+   .value-content .error-message{
+    margin-left: -33%;
+   }
+   
+   .value-content button{
+    left: 25%;
+    top: 1vh;
+   
+  }
+  .error-message{
+    margin-left: 10% !important;
+    margin-top: 0.5vh;
+  }
+  .inner-question3 label{
+    margin-top: 4vh;
+  }
+  .left-content{
+    width: 100% !important;
+  }
+  .btn-container svg{
+    position: relative;
+    top: 4.5vh;
+}
+.mult-select-tag .body{
+    min-width: 12rem !important;
+}
+.btn-container svg {
+    margin-top: 4vh;
+}
+
+
+}
+@media (max-width:600px){
+    .box1{
+        min-height: 84vh;
+        width: 95%;
+        height: auto;
+        padding-bottom: 10vh;
+    }
+    .inner-box{
+        min-height: 75vh;
+        width: 85%;
+        height: auto;
+        padding-bottom: 10vh;
+    }
+    .box1 .content h1{
+        font-size: 20px;
+        margin-left: -1%;
+        margin-bottom: 3vh;
+    }
+    .box1 label{
+        font-size: 15px;
+    }
+
+    .value-content{
+        margin-top: 7vh;
+    }
+   
+    .inner-question{
+        margin-top: -5vh;
+    }
+    .inner-question3{
+        margin-top: -1vh;
+    }
+    .section-error{
+        margin-top: 1.5vh !important;
+    }
+    .value-content button{
+        margin-left: -5%;
+        margin-top: -5vh;
+        height: 30px;
+    }
+    .download-content{
+        margin-top: -5vh;
+    }
+    
+    .value-content label {
+        margin-top: 6vh;
+    }
+    .value-content input{
+        margin-left: 2%;
+    }
+    .error-message{
+        margin-top: -5vh;
+        margin-left: 5% !important;
+        font-size: 12px;
+    }
+    .left-content{
+        width: 100% !important;
+    }
+    .inner-question8{
+        margin-left: 0% !important;
+    }
+    .btn-container svg{
+        position: relative;
+        top: 4.5vh;
+    }
+}
+
+@media (max-width:450px){
+   
+    .dashboard .top .logo{
+        width: 120px;
+        height: 30px;
+    } 
+    .value-content label{
+        font-size: 13px;
+    }
+    
+  }
+
+  @media (max-width:400px){
+    .box1{
+        min-height: 85vh;
+        height: auto;
+        padding-bottom: 7vh;
+    }
+    .box1 h1{
+        font-size: 17px !important;
+    }
+    .inner-box{
+        min-height: 75vh;
+        height: auto;
+        padding-bottom: 7vh;
+    }
+    .value-content label{
+        font-size: 12px;
+        width: 90%;
+    }
+    
+    .value-content input{
+        width: 150px;
+        font-size: 10px;
+    }
+    .value-content button{
+        height: 25px;
+        font-size: 13px;
+    }
+    .download-content{
+        margin-left: -5vh !important;
+    }
+    .download-content p{
+        font-size: 12px;
+        margin-left: 2vh;
+    }
+    .download-content button{
+        height: 25px;
+        font-size: 13px;
+    }
+    .mult-select-tag .body{
+        min-width: 9.5rem !important;
+    }
+    .error-message{
+        font-size: 10px !important;
+    }
+  }
+
+  @media (max-width:300px){
+    nav.close ~ .dashboard .top{
+        width: 80vw;
+    }
+    nav.close ~ .dashboard .box1{
+        width: 85vw;
+    }
+    nav.close ~ .dashboard .inner-box{
+        width: 70vw;
+    }
+  }
+
+
+
+/*Content Style - End*/
+
+
+/* Style for error message */
+.error-message {
+    color: red; /* Red font color for error message */
+    font-size: 14px; /* Adjust font size */
+    margin-top: 5px; /* Add space between input and error message */
+}

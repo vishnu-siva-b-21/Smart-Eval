@@ -1,0 +1,57 @@
+{% extends "faculty/base.html" %}
+
+{% block title %}
+Create Question Page
+{% endblock title %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='faculty/styles/create_ques.css') }}">
+{% endblock styles %}
+
+{% block content %}
+<section class="dashboard">
+
+    <div class="box">
+        <div class="content">
+            <form id="qpForm">
+                <h2 id="exam_title">{{ exam_title }}</h2>
+                {% if fill_count != 0 %}
+                <div id="fillups_div">
+                    <h2>Fillups</h2>
+                    {% for i in range(1, fill_count + 1) %}
+                    <label>{{ i }} . </label>
+                    <textarea class="fill_ques" id="fill_ques{{ i }}" name="fill_ques{{ i }}"
+                        placeholder="Enter Question here.."></textarea>
+                    <textarea class="fill_ans" id="fill_ans{{ i }}" name="fill_ans{{ i }}"
+                        placeholder="Enter Answer Here.."></textarea>
+                    <br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                {% if shortans_count != 0 %}
+                <div id="shortans_div">
+                    <h2>Short Answer</h2>
+                    {% for i in range(1, shortans_count + 1) %}
+                    <label class="short-label">{{ i }} . </label>
+                    <textarea class="shortans_field" id="shortans_field{{ i }}" name="shortans_field{{ i }}"
+                        placeholder="Enter Question Here.."></textarea>
+                    <textarea class="shortans_ans" id="shortans_ans{{ i }}" name="shortans_ans{{ i }}"
+                        placeholder="Enter Answer Here.."></textarea>
+                    <br>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <label><input type="checkbox" id="grammar_toggle" name="grammar_toggle" checked> Enable Grammar
+                    Correction</label>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='faculty/scripts/create_ques.js') }}"></script>
+{% endblock scripts %}

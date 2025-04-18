@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" type="image/x-icon" href="{{url_for('static', filename='faculty/images/benx.png')}}">
+
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>
+		{% block title %}
+		<!-- title -->
+		{% endblock title %}
+	</title>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/brands.min.css"
+		integrity="sha512-sVSECYdnRMezwuq5uAjKQJEcu2wybeAPjU4VJQ9pCRcCY4pIpIw4YMHIOQ0CypfwHRvdSPbH++dA3O4Hihm/LQ=="
+		crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+		integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+	<link rel="stylesheet" href="{{ url_for('static', filename='faculty/styles/base.css') }}">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.4/dist/sweetalert2.min.css"
+		integrity="sha256-qWVM38RAVYHA4W8TAlDdszO1hRaAq0ME7y2e9aab354=" crossorigin="anonymous">
+	{% block styles %}
+	<!-- styles -->
+	{% endblock styles %}
+</head>
+
+<body>
+
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+		<div class="container-fluid">
+			<a class="navbar-brand" href="#">
+				<img src="{{url_for('static', filename='faculty/images/logo.png')}}" alt="Logo"
+					style="width: 250px; height: 50px;">
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+				aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item {% if request.endpoint == 'faculty.faculty_dashboard' %}active{% endif %}">
+						<a class="nav-link" href="{{ url_for('faculty.faculty_dashboard') }}">DASHBOARD</a>
+					</li>
+					<li class="nav-item {% if request.endpoint == 'faculty.exam_desc' %}active{% endif %}">
+						<a class="nav-link" href="{{ url_for('faculty.exam_desc') }}">CREATE QUESTION</a>
+					</li>
+					<li class="nav-item {% if request.endpoint == 'faculty.exam_list' %}active{% endif %}">
+						<a class="nav-link" href="{{ url_for('faculty.exam_list') }}">EXAM LIST</a>
+					</li>
+					<li class="nav-item {% if request.endpoint == 'faculty.faculty_logout' %}active{% endif %}">
+						<a class="nav-link" href="{{ url_for('faculty.faculty_logout') }}"
+							id="confirmationButton">LOGOUT</a>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	{% block content %}
+	<!-- main Content -->
+	{% endblock content %}
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.4/dist/sweetalert2.all.min.js"
+		integrity="sha256-WLPV1xrJUZx5TVzM44uDSNXrc7bXOMxSsbrQ/FC9x7M=" crossorigin="anonymous"></script>
+	{% block scripts %}
+	<!-- scripts -->
+	{% endblock scripts %}
+
+	<script>
+		document.getElementById('confirmationButton').addEventListener('click', function (event) {
+			event.preventDefault();
+			// Show confirmation Sweet Alert
+			Swal.fire({
+				title: 'Logout Confirmation',
+				text: 'Are you sure you want to logout?',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes, logout!'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					// If confirmed, proceed to the linked page
+					window.location.href = this.getAttribute('href');
+				} else if (result.dismiss === Swal.DismissReason.cancel) {
+					// If canceled, do nothing or handle accordingly
+				}
+			});
+		});
+	</script>
+
+	<!-- Flask flashed messages with SweetAlert -->
+
+	{% with messages = get_flashed_messages(with_categories = true) %}
+	{% if messages %}
+	{% for category, message in messages %}
+	<script>
+		Swal.fire({
+			icon: '{{ category }}',
+			title: '{{ message }}',
+			showConfirmButton: false,
+			timer: 3000
+		});
+	</script>
+	{% endfor %}
+	{% endif %}
+	{% endwith %}
+
+</body>
+
+</html>
